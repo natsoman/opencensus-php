@@ -259,6 +259,9 @@ jobs:
         environment:
           POSTGRES_PASSWORD: pgsql
           POSTGRES_USER: postgres
+      - image: redis:4.0
+      - image: elasticsearch:6.8.0
+      - image: mongo:3.6.6
     steps:
       - checkout
       - run:
@@ -302,6 +305,15 @@ jobs:
       - run:
           name: Install pcntl extension
           command: sudo docker-php-ext-install pcntl
+      - run:
+          name: Predis test
+          command: tests/integration/predis/test.sh
+      - run:
+          name: Elastica test
+          command: tests/integration/elastica/test.sh
+      - run:
+          name: MongoDB test
+          command: tests/integration/mongodb/test.sh
       - run:
           name: Curl test
           command: tests/integration/curl/test.sh
