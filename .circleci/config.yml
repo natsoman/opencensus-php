@@ -80,16 +80,6 @@ unit-config: &unit-config
 
 version: 2
 jobs:
-  php71:
-    <<: *unit-config
-    docker:
-      - image: circleci/php:7.1-node
-
-  php71-zts:
-    <<: *unit-config
-    docker:
-      - image: circleci/php:7.1-zts-node
-
   php72:
     <<: *unit-config
     docker:
@@ -238,13 +228,13 @@ jobs:
       - run:
           name: MongoDB test
           command: tests/integration/mongodb/test.sh
-   environment:
+    environment:
       DB_HOST: 127.0.0.1
       DB_USERNAME: mysql
       DB_PASSWORD: mysql
       DB_DATABASE: mysqldb
 
-  # Integration tests running on PHP 8.0. When updating these, please also update `integration-7.4` further down.
+  # Integration tests running on PHP 8.0.
   integration-8.0:
     docker:
       - image: circleci/php:8.0-node
@@ -306,6 +296,16 @@ jobs:
           name: Install pcntl extension
           command: sudo docker-php-ext-install pcntl
       - run:
+          name: Install redis extension
+          command: |
+            sudo pecl install redis
+            sudo docker-php-ext-enable redis
+      - run:
+          name: Install mongo extension
+          command: |
+            sudo pecl install mongodb
+            sudo docker-php-ext-enable mongodb
+      - run:
           name: Predis test
           command: tests/integration/predis/test.sh
       - run:
@@ -354,8 +354,6 @@ workflows:
   version: 2
   units:
     jobs:
-      - php71
-      - php71-zts
       - php72
       - php72-zts
       - php73

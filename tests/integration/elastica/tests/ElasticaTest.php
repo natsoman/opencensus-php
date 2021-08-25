@@ -16,14 +16,14 @@ class ElasticaTest extends TestCase
     private static $elasticHost;
     private static $elasticPort;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         Elastica::load();
         self::$elasticHost = getenv('ELASTIC_HOST') ?: '127.0.0.1';
         self::$elasticPort = (int) (getenv('ELASTIC_PORT') ?: 9200);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!extension_loaded('opencensus')) {
             $this->markTestSkipped('Please enable the opencensus extension.');
