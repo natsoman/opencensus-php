@@ -29,14 +29,14 @@ class PredisTest extends TestCase
     private static $redisHost;
     private static $redisPort;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         RedisIntegration::load();
         self::$redisHost = getenv('REDIS_HOST') ?: '127.0.0.1';
         self::$redisPort = (int) (getenv('REDIS_PORT') ?: 6379);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!extension_loaded('opencensus')) {
             $this->markTestSkipped('Please enable the opencensus extension.');

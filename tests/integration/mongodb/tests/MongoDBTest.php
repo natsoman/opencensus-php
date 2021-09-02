@@ -31,12 +31,12 @@ class MongoDBTest extends TestCase
 
     private $tracer;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         MongoDB::load();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!extension_loaded('opencensus')) {
             $this->markTestSkipped('Please enable the opencensus extension.');
